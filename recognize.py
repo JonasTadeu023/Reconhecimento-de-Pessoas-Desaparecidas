@@ -7,6 +7,10 @@ video = cv2.VideoCapture(0);
 
 caminhos = os.listdir('training_sucsess');
 
+conhecer_codigos_de_faces = [];
+
+nomes_faces = [];
+
 for nome in caminhos:
     caminho = ('training_sucsess/'+nome);
     arquivos = os.listdir(caminho);
@@ -15,16 +19,6 @@ for nome in caminhos:
 
         stranger = fr.load_image_file("not_missing/João.D.jpg");
         stranger_econding = fr.face_encodings(stranger)[0];
-       
-        conhecer_codigos_de_faces = [
-            enconding,
-            stranger_econding
-        ];
-
-        nomes_faces = [
-            nome,
-            "Desconhecido"
-        ];
 
         face_locations = [];
         face_encodings = [];
