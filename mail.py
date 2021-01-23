@@ -30,7 +30,7 @@ for nome in caminhos:
         else: 
             image = 'recognized/'+nome+'/'+nomes
 
-    fromaddr = "pytest006@gmail.com"
+    fromaddr = "SEU EMAIL"
     toaddr = email
     msg = MIMEMultipart()
 
@@ -57,7 +57,7 @@ for nome in caminhos:
 
     server = smtplib.SMTP('smtp.gmail.com', 587)
     server.starttls()
-    server.login(fromaddr, "gremio3590")
+    server.login(fromaddr, "SUA SENHA")
     text = msg.as_string()
     server.sendmail(fromaddr, toaddr, text)
     server.quit()
