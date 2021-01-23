@@ -1,6 +1,7 @@
 import os.path
 import json
 import pandas as pd
+import numpy as np
 import smtplib
 
 from email.mime.multipart import MIMEMultipart
@@ -19,35 +20,44 @@ for nome in caminhos:
     
     #Percorre o caminho de pessoas
     for nomes in pessoas:
-        #var nome = email que deve ser enviado
-        fromaddr = "seu email"
-        toaddr = nome
-        msg = MIMEMultipart()
+        past = caminho+'/'+nomes
+        past2 = caminho+'/'+nome+'.json'
+        if past == past2:
+            with open(past, 'r') as arq:
+                obj = json.load(arq)
+                email = obj['Nome']
+                data = obj['Data']
+        else: 
+            image = 'recognized/'+nome+'/'+nomes
 
-        msg['From'] = fromaddr 
-        msg['To'] = toaddr
-        msg['Subject'] = "Uma pessoa cadastrada por você foi reconhecida!!!"
+    fromaddr = "pytest006@gmail.com"
+    toaddr = email
+    msg = MIMEMultipart()
 
-        body = "\nNosso sistema acabou de reconhecer, tal pessoa na data tal. Em anexo irá a foto do reconhecido"
+    msg['From'] = fromaddr 
+    msg['To'] = toaddr
+    msg['Subject'] = "Uma pessoa cadastrada por você foi reconhecida!!!"
 
-        msg.attach(MIMEText(body, 'plain'))
+    body = "\nNosso sistema acabou de reconhecer uma pessoa que foi cadastrada por você. Em anexo irá a foto da pessoa encontrada em "+data
 
-        filename = 'recognized/jonastadeu006@gmail.com/Jonas.png'
+    msg.attach(MIMEText(body, 'plain'))
 
-        attachment = open(filename,'rb')
+    filename = image
 
-        part = MIMEBase('application', 'octet-stream')
-        part.set_payload((attachment).read())
-        encoders.encode_base64(part)
-        part.add_header('Content-Disposition', "attachment; filename= %s" % filename)
+    attachment = open(filename,'rb')
 
-        msg.attach(part)
+    part = MIMEBase('application', 'octet-stream')
+    part.set_payload((attachment).read())
+    encoders.encode_base64(part)
+    part.add_header('Content-Disposition', "attachment; filename= %s" % filename)
 
-        attachment.close()
+    msg.attach(part)
 
-        server = smtplib.SMTP('smtp.gmail.com', 587)
-        server.starttls()
-        server.login(fromaddr, "sua_senha")
-        text = msg.as_string()
-        server.sendmail(fromaddr, toaddr, text)
-        server.quit()
+    attachment.close()
+
+    server = smtplib.SMTP('smtp.gmail.com', 587)
+    server.starttls()
+    server.login(fromaddr, "gremio3590")
+    text = msg.as_string()
+    server.sendmail(fromaddr, toaddr, text)
+    server.quit()

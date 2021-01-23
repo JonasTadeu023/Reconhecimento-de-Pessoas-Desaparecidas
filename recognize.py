@@ -1,10 +1,10 @@
 #Importando as ferramentas
-import face_recognition as fr
-import cv2
-import os.path
-import numpy as np
-import json
-from datetime import date, datetime
+import face_recognition as fr #lib para fazer o treinamento dos faces
+import cv2 #lib para poder manusear as imagens
+import os.path #usado para conseguir ler e entrar em pastas
+import numpy as np #Usado para fazer os calculos nos arrays multidimencionais
+import json #formato para poder manusear dados tipo xml
+from datetime import date, datetime #para pegar data e horário
 
 #Captura de video
 video_capture = cv2.VideoCapture(0)
@@ -84,7 +84,7 @@ while True:
 
         if os.path.exists(past):
             past2 = past+'/'+name
-            cv2.imwrite(past2+'.png', rgb_small_frame)
+            cv2.imwrite(past2+'.png', frame)
             with open(past2+'.json', 'w') as json_file:
                 json.dump(dados, json_file, indent = 3, ensure_ascii = False)
         else:
